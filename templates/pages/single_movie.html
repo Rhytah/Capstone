@@ -1,0 +1,37 @@
+{% extends 'layouts/main.html' %}
+{% block title %}movie Search{% endblock %}
+{% block content %}
+<div class="row">
+	<div class="col-sm-6">
+		<h1 class="monospace">
+			{{ movie.title }}
+		</h1>
+		<p class="subtitle">
+			Release Date: {{ movie.release_date }}
+		</p>
+		</p>
+		<p>
+			<i class="fas fa-link"></i> {% if movie.website %}<a href="{{ movie.website }}" target="_blank">{{ movie.website }}</a>{% else %}No Website{% endif %}
+		</p>
+		<p>
+			<i class="fab fa-facebook-f"></i> {% if movie.facebook_link %}<a href="{{ movie.facebook_link }}" target="_blank">{{ movie.facebook_link }}</a>{% else %}No Facebook Link{% endif %}
+		</p>
+	</div>
+	<div class="col-sm-6">
+		<img src="{{ movie.image_link }}" alt="movie Image" />
+	</div>
+	<div>
+		<button
+			onclick="window.location.href='/movies/{{ movie.id }}/edit'"
+			type="button"
+			class="btn btn-primary btn-sm"
+			>Edit</button>
+		<button
+			onclick="deleteRequest('/movies/{{ movie.id}}')"
+			type="button"
+			class="btn btn-danger btn-sm"
+		>Delete</button>
+	</div>
+</div>
+{% endblock %}
+
