@@ -18,6 +18,7 @@ class Movie(db.Model):
     image_link = db.Column(db.String(500))
     facebook_link = db.Column(db.String(120))
     website = db.Column(db.String())
+    description = db.Column(db.String())
     release_date = db.Column(db.DateTime)
     deleted = db.Column(db.Boolean, default=False)
 
@@ -70,28 +71,13 @@ class Movie(db.Model):
                 'title': movie.title,
                 'website': movie.website,
                 'image_link': movie.image_link,
+                'description': movie.description,
                 'id': movie.id
             }
             for movie in movies
         ]
 
         return results
-        
-    # @classmethod
-    # def delete_movie(movie_id):
-    #     try:
-    #         movie = Movie.get_by_id(movie_id)
-    #         print(movie)
-    #         db.session.delete(movie)
-    #         db.session.commit()
-    #         print("it has worked")
-    #     except Exception as error:
-    #         db.session.rollback()
-    #         raise error
-    #     finally:
-    #         db.session.close()
- 
-        
 
     @property
     def serialize(self):
@@ -101,7 +87,8 @@ class Movie(db.Model):
             'release_date': self.release_date,
             'website': self.website,
             'facebook_link': self.facebook_link,
-            'image_link': self.image_link
+            'image_link': self.image_link,
+            'description':self.description
         }
 
 

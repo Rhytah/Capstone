@@ -98,7 +98,8 @@ def create_movie_submission():
       website = request.form['website']
       image_link = request.form['image_link']
       facebook_link = request.form['facebook_link']
-      movie = Movie(title = title,release_date=release_date,website=website, image_link=image_link, facebook_link=facebook_link)
+      description = request.form['description']
+      movie = Movie(title = title,release_date=release_date,website=website, image_link=image_link, facebook_link=facebook_link,description=description)
       db.session.add(movie)
       db.session.commit()
 

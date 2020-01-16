@@ -9,6 +9,9 @@
 		<p class="subtitle">
 			Release Date: {{ movie.release_date }}
 		</p>
+		<p class="subtitle">
+			Plot: {{ movie.description }}
+		</p>
 		</p>
 		<p>
 			<i class="fas fa-link"></i> {% if movie.website %}<a href="{{ movie.website }}" target="_blank">{{ movie.website }}</a>{% else %}No Website{% endif %}

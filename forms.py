@@ -20,7 +20,9 @@ class MovieForm(Form):
     facebook_link = StringField(
         'facebook_link', validators=[URL()]
     )
-
+    description = StringField(
+        'description', validators=[DataRequired()]
+    )
 class ActorForm(Form):
     name = StringField(
         'name', validators=[DataRequired()]
