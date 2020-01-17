@@ -6,7 +6,7 @@ import json
 import dateutil.parser
 import babel
 import sys
-from flask import Flask, render_template, request, Response, flash, redirect, url_for
+from flask import Flask, render_template, request, Response, flash, redirect, url_for, jsonify
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -54,13 +54,16 @@ def index():
 
 #------------------------------------------------------------------#
 #  Movies
-#  ----------------------------------------------------------------#
+# ----------------------------------------------------------------#
 
 @app.route('/movies')
 def movies():
   data = Movie.get_all()
-  print(data)
-  return render_template('pages/movies.html', movies=data)
+
+  return jsonify({
+    "movies": data,
+    "Success": True
+  })
 
 @app.route('/movies/search', methods=['POST'])
 def search_movies():
@@ -70,17 +73,22 @@ def search_movies():
         'count': len(search_results),
         'data': search_results
     }
-    print(search_results)
 
-    return render_template('pages/search_movies.html', results=response,search_term=request.form.get('search_term', ''))
-
+    return jsonify({
+      "Successs":True,
+      "results":response
+    })
 @app.route('/movies/<int:movie_id>')
 def single_movie(movie_id):
   # shows the movie page with the given movie_id
-  # TODO: replace with real movie data from the movies table, using movie_id
   data = Movie.get_by_id_full(movie_id)
-  return render_template('pages/single_movie.html', movie=data)
 
+  return jsonify({
+    "movies": data,
+    "Success": True
+  })
+
+#  ----------------------------------------------------------------  
 #  Create movie
 #  ----------------------------------------------------------------
 
@@ -112,6 +120,21 @@ def create_movie_submission():
       db.session.close()
       return render_template('pages/home.html')
 
+@app.route('/movies/<int:movie_id>', methods=['PATCH'])
+def partially_update_movie(movie_id):
+    body = request.get_json()
+    movie = Movie.query.filter_by(id=movie_id).first()
+
+    if not movie:
+        abort(404)
+    print(movie)
+    movie.description = body.get("description", movie.description)
+
+    db.session.commit()
+    return jsonify({
+        'success': True,
+        'movie': movie.get_by_id_full(movie_id)})
+
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
 def delete_movie(movie_id):
@@ -128,7 +151,6 @@ def delete_movie(movie_id):
   # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
   # clicking that button delete it from the db then redirect the user to the homepage
   return render_template('pages/home.html')
-
 
 
 
