@@ -38,8 +38,6 @@ class Movie(db.Model):
     def get_by_id_full(cls, id):
         details = {}
         movie = cls.get_by_id(id)
-        details.update(movie)
-
         return details
 
     @classmethod
@@ -79,7 +77,6 @@ class Movie(db.Model):
 
         return results
 
-    @property
     def serialize(self):
         return {
             'id': self.id,
@@ -148,7 +145,6 @@ class Actor(db.Model):
 
         return results
 
-    @property
     def serialize(self):
         return {
             'id': self.id,

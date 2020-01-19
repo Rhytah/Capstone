@@ -6,7 +6,7 @@ import json
 import dateutil.parser
 import babel
 import sys
-from flask import Flask, render_template, request, Response, flash, redirect, url_for, jsonify
+from flask import Flask, render_template, request, Response, flash, redirect, url_for, jsonify,abort
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -95,47 +95,46 @@ def search_movies():
 @app.route('/movies/<int:movie_id>')
 def single_movie(movie_id):
   # shows the movie page with the given movie_id
-  data = Movie.get_by_id_full(movie_id)
+  data = Movie.query.filter_by(id=movie_id).first()
 
   return jsonify({
-    "movies": data,
+    "movies": data.serialize(),
     "Success": True
   })
 
-#  ----------------------------------------------------------------  
-#  Create movie
-#  ----------------------------------------------------------------
-
-@app.route('/movies/create', methods=['GET'])
-def create_movie_form():
-  form = MovieForm()
-  return render_template('forms/new_movie.html', form=form)
 
 @app.route('/movies/create', methods=['POST'])
-def create_movie_submission():
+@requires_auth('add:movie')
+def create_movie_submission(payload):
+    """
+    Create a movie
+    """
+    data = request.get_json()
+    title=data.get("title"),
+    release_date=data.get("release_date")
+    website= data.get("website")
+    image_link= data.get("image_link")
+    facebook_link=data.get("facebook_link")
+    description=data.get("description")
 
-    try:
-      title = request.form['title']
-      release_date = request.form['release_date']
-      website = request.form['website']
-      image_link = request.form['image_link']
-      facebook_link = request.form['facebook_link']
-      description = request.form['description']
-      movie = Movie(title = title,release_date=release_date,website=website, image_link=image_link, facebook_link=facebook_link,description=description)
-      db.session.add(movie)
-      db.session.commit()
+    new_movie = Movie(
+      title=title, release_date=release_date,website=website,image_link=image_link, facebook_link=facebook_link, description=description
+    )
 
-      flash('Movie ' + request.form['title'] + ' was successfully listed!')
-    except:
-      db.session.rollback()
-      flash('An error occurred. Movie could not be listed.')
+    db.session.add(new_movie)
+    db.session.commit()
+    return jsonify({
+        'success': True,
+        'movie': new_movie.serialize()
+    }), 201
 
-    finally:
-      db.session.close()
-      return render_template('pages/home.html')
 
 @app.route('/movies/<int:movie_id>', methods=['PATCH'])
-def partially_update_movie(movie_id):
+@requires_auth('edit:movie')
+def partially_update_movie(payload,movie_id):
+    """
+    Update description of a movie
+    """
     body = request.get_json()
     movie = Movie.query.filter_by(id=movie_id).first()
 
@@ -147,33 +146,40 @@ def partially_update_movie(movie_id):
     db.session.commit()
     return jsonify({
         'success': True,
-        'movie': movie.get_by_id_full(movie_id)})
+        'movie': movie.serialize()})
 
 
 @app.route('/movies/<int:movie_id>', methods=['DELETE'])
-def delete_movie(movie_id):
-  try:
-    movie = db.session.query(Movie).filter_by(id = movie_id).first()
-    movie_title = movie.title
-    db.session.delete(movie)
-    db.session.commit()
-    flash('Movie ' + movie_title + ' successfully deleted.')
-    print("worked")
-  except Exception as err:
-    flash('An error occurred. Movie with id ' + movie_id + ' could not be deleted.')
+@requires_auth('delete:movies')
+def delete_movie(payload, movie_id):
+  """
+  Delete a movie basing on it's id
+  """
+  movie = Movie.query.filter_by(id=movie_id).first()
+  
+  print(movie)
+  if not movie:
+    abort(404, "Movie not found")
+  movie_title = movie.title
 
-  # BONUS CHALLENGE: Implement a button to delete a Venue on a Venue Page, have it so that
-  # clicking that button delete it from the db then redirect the user to the homepage
-  return render_template('pages/home.html')
+  db.session.delete(movie)
+  db.session.commit()
+
+  return jsonify({
+      'success': True,
+      'message': f'Movie - {movie_title} - has been successfully deleted.'
+  }), 200
 
 
-
-
-
+#  ----------------------------------------------------------------
 #  actors
 #  ----------------------------------------------------------------
 @app.route('/actors')
-def actors():
+@requires_auth('view:actors')
+def actors(payload):
+  """
+  Create an actor
+  """
   data= Actor.get_all()
   return jsonify({
     "movies": data,
@@ -196,52 +202,40 @@ def search_actors():
                           search_term=request.form.get('search_term', ''))
 
 @app.route('/actors/<int:actor_id>')
-def single_actor(actor_id):
-  # shows the movie page with the given movie_id
-  # TODO: replace with real movie data from the movies table, using movie_id
+@requires_auth('view:actors')
+def single_actor(payload, actor_id):
+  """
+  Shows the actor with the given movie_id
+  """
+
   data = Actor.get_by_id_full(actor_id)
-  return render_template('pages/single_actor.html', actor=data)
+  return jsonify({
+    "movies": data,
+    "Success": True
+  })
   
 #  Update
 #  ----------------------------------------------------------------
-@app.route('/actors/<int:actor_id>/edit', methods=['GET'])
-def edit_actor(actor_id):
-  actor = Actor.get_by_id(actor_id).serialize
-  form = ActorForm(**actor)
+@app.route('/actors/<int:actor_id>/edit', methods=['PATCH'])
+@requires_auth('edit:actor')
+def edit_actor(payload,actor_id):
+  """
+  Update description of a movie
+  """
+  body = request.get_json()
+  actor = Actor.query.filter_by(id=actor_id).first()
  
+  if not actor:
+      abort(404)
+  print(actor)
+  actor.name = body.get("name", actor.name)
 
-  return render_template('forms/edit_actor.html', form=form, actor=actor)
+  db.session.commit()
+  return jsonify({
+      'success': True,
+      'actor': actor.serialize()
+      })
  
-  # TODO: populate form with fields from actor with ID <actor_id>
-
-@app.route('/actors/<int:actor_id>/edit', methods=['POST'])
-def edit_actor_submission(actor_id):
-  # TODO: take values from the form submitted, and update existing
-  # actor record with ID <actor_id> using the new attribute
-  form=actorForm()
-  try:
-      actor = actor.query.get(actor_id)
-      actor.name = request.form['name']
-      actor.age = request.form['age']
-      actor.gender = request.form['gender']
-
-      db.session.commit()
-  except:
-      print(sys.exc_info())
-      db.session.rollback()
-
-  finally:
-      db.session.close()
-
-  return redirect(url_for('single_actor', actor_id=actor_id))
-  # return redirect(url_for('show_actor', actor_id=actor_id))
-
-@app.route('/movies/<int:movie_id>/edit', methods=['GET'])
-def edit_movie(movie_id):
-  movie = Movie.get_by_id(movie_id)
-  form = MovieForm(**movie)
-  print(movie)
-  return render_template('forms/edit_movie.html', form=form, movie=movie)
 
 @app.route('/movies/<int:movie_id>/edit', methods=['POST'])
 def edit_movie_submission(movie_id):
@@ -258,6 +252,8 @@ def create_actor_form():
   return render_template('forms/new_actor.html', form=form)
 
 @app.route('/actors/create', methods=['POST'])
+@requires_auth('add:actors')
+
 def create_actor_submission():
   # called upon submitting the new actor listing form
   # TODO: insert form data as a new movie record in the db, instead
