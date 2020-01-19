@@ -11,6 +11,8 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from models import  Movie,db, Actor
+from flask_cors import CORS
+from auth import AuthError,requires_auth
 
 import logging
 from logging import Formatter, FileHandler
@@ -25,6 +27,17 @@ moment = Moment(app)
 app.config.from_object('config')
 migrate = Migrate(app, db)
 db.init_app(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
+
+@app.after_request
+def after_request(response):
+    """ configuring CORS"""
+    response.headers.add('Access-Control-Allow-Headers',
+                            'Content-Type,Authorization,true')
+    response.headers.add('Access-Control-Allow-Methods',
+                            'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 
 # TODO: connect to a local postgresql database
 
@@ -50,14 +63,15 @@ app.jinja_env.filters['datetime'] = format_datetime
 
 @app.route('/')
 def index():
-  return render_template('pages/home.html')
+  return jsonify({"message":"Welcome to Capstone. A casting agency"})
 
 #------------------------------------------------------------------#
 #  Movies
 # ----------------------------------------------------------------#
 
 @app.route('/movies')
-def movies():
+@requires_auth('view:movies')
+def get_movies(payload):
   data = Movie.get_all()
 
   return jsonify({
@@ -160,9 +174,11 @@ def delete_movie(movie_id):
 #  ----------------------------------------------------------------
 @app.route('/actors')
 def actors():
-  # TODO: replace with real data returned from querying the database
   data= Actor.get_all()
-  return render_template('pages/actors.html', actors=data)
+  return jsonify({
+    "movies": data,
+    "Success": True
+  })
 
 @app.route('/actors/search', methods=['POST'])
 def search_actors():
@@ -261,36 +277,61 @@ def create_actor_submission():
   return render_template('pages/home.html')
 
 
-@app.errorhandler(404)
-def not_found_error(error):
-    return render_template('errors/404.html'), 404
+'''
+Example error handling for unprocessable entity
+'''
+@app.errorhandler(422)
+def unprocessable(error):
+    return jsonify({
+        "success": False,
+        "error": 422,
+        "message": "unprocessable"
+    }), 422
+
+
+@app.errorhandler(400)
+def bad_request(error):
+    return jsonify({
+        "success": False,
+        "error": 400,
+        "message": error.description
+    }), 400
+
 
 @app.errorhandler(500)
-def server_error(error):
-    return render_template('errors/500.html'), 500
+def internal_server_error(error):
+    return jsonify({
+        "success": False,
+        "error": 500,
+        "message": 'Internal Server Error. Contact admin!'
+    }), 500
 
 
-if not app.debug:
-    file_handler = FileHandler('error.log')
-    file_handler.setFormatter(
-        Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-    )
-    app.logger.setLevel(logging.INFO)
-    file_handler.setLevel(logging.INFO)
-    app.logger.addHandler(file_handler)
-    app.logger.info('errors')
+@app.errorhandler(405)
+def method_not_allowed(error):
+    return jsonify({
+        "success": False,
+        "error": 405,
+        "message": 'Method Not Allowed. Double check that you are using the appropriate method for resource.'
+    }), 405
 
-#----------------------------------------------------------------------------#
-# Launch.
-#----------------------------------------------------------------------------#
 
-# Default port:
-if __name__ == '__main__':
-    app.run()
-
-# Or specify port manually:
 '''
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+@TODO implement error handler for 404
+    error handler should conform to general task above 
 '''
+@app.errorhandler(404)
+def not_found(error):
+    return jsonify({
+        "success": False,
+        "error": 404,
+        "message": "Resource not found"
+    }), 404
+
+@app.errorhandler(AuthError)
+def invalid_claims(error):
+    return jsonify({
+        "success": False,
+        "error": 401,
+        "message": error.__dict__
+    }), 401

@@ -1,0 +1,38 @@
+<div>
+    <div class="align-center">
+        <h3 *ngIf="!id">Add Actor</h3>
+        <h3 *ngIf="id">Update Actor</h3>
+        <form class="form" (ngSubmit)="onSubmit()">
+            <input type="number" name="id" [(ngModel)]="id" hidden>
+            <input type="text" name="name" [(ngModel)]="name" placeholder="Name..">
+            <input type="number" name="age" [(ngModel)]="age" placeholder="Age..">
+            <select name="gender" id="gender" [(ngModel)]="gender">
+                <option selected value="">--Gender--</option>
+                <option value="male">male</option>
+                <option value="female">female</option>
+            </select>
+            <input type="submit" value="Submit" class="btn">
+            <input type="reset" value="Clear" class="btn">
+        </form>
+    </div>
+    <div *ngIf="loading" class="loading align-center">Loading...</div>
+    <div>
+        <table>
+                <h3>Actors</h3>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th></th>
+                <th></th>
+            </tr>
+            <tr *ngFor='let actor of actors'>
+                <td data-column="Name">{{ actor.name }}</td>
+                <td data-column="Age">{{ actor.age }}</td>
+                <td data-column="Gender">{{ actor.gender }}</td>
+                <td><a class="updateBTN" (click)="update(actor)"><small>UPDATE</small></a></td>
+                <td><a class="deteleBTN" (click)="delete(actor.id)"><small>DELETE</small></a></td>
+            </tr>
+        </table>
+    </div>
+</div>

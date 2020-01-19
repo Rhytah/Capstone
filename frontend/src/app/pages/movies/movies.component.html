@@ -1,0 +1,33 @@
+<div>
+        <div class="align-center">
+            <h3 *ngIf="!id">Add Movie</h3>
+            <h3 *ngIf="id">Update Movie</h3>
+            <form class="form" (ngSubmit)="onSubmit()">
+                <input type="number" name="id" [(ngModel)]="id" hidden>
+                <input type="text" name="title" [(ngModel)]="title" placeholder="Title">
+                <input type="date" name="release_date" [(ngModel)]="release_date" placeholder="Release Date">
+                <input type="submit" value="Submit" class="btn">
+                <input type="reset" value="Clear" class="btn">
+            </form>
+        </div>
+        <div *ngIf="loading" class="loading align-center">Loading...</div>
+        <div>
+            <table>
+                    <h3>Movie</h3>
+                <tr>
+                    <th><Title></Title></th>
+                    <th>Release Date</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr *ngFor='let movie of movies'>
+                    <td data-column="title">{{ movie.title }}</td>
+                    <td data-column="release_date">{{ movie.release_date }}</td>
+                    <td data-column="release_date">{{ movie.description }}</td>
+                    <td><a class="updateBTN" (click)="update(movie)"><small>UPDATE</small></a></td>
+                    <td><a class="deteleBTN" (click)="delete(movie.id)"><small>DELETE</small></a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
