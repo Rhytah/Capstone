@@ -52,9 +52,8 @@ p {
   display: flex;
   margin: 32px auto;
   padding: 0 16px;
-  max-width: 960px;
+  width: 80%;
   flex-direction: column;
-  align-items: center;
 }
 
 svg.material-icons {
@@ -284,11 +283,12 @@ svg#clouds {
   }
 }
 
-#about {
+#token-display {
     text-align: center;
-    width: 80%;
+    width: 60%;
+    border-radius: 1rem;
 }
 
-#about input {
+#token-display input {
   width: 100%;
 }

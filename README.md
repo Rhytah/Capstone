@@ -3,7 +3,8 @@ Capstone
 
 ### Introduction
 
-Capstone is a casting agency site 
+Capstone is a casting agency site which illustrates a company that is in the business of matching actors to movies in production.
+Capstone gives one ease of seeing actors and movies managed by the company at different access levels.
 
 
 ### Tech Stack
@@ -14,40 +15,20 @@ Our tech stack will include:
 * **PostgreSQL** as our database of choice
 * **Python3** and **Flask** as our server language and server framework
 * **Flask-Migrate** for creating and running schema migrations
-* **HTML**, **CSS**, and **Javascript** with [Bootstrap 3](https://getbootstrap.com/docs/3.4/customize/) for our website's frontend
+* **Angular** for our website's frontend
 
 ### Main Files: Project Structure
 
-  ```sh
-  ├── README.md
-  ├── app.py *** the main driver of the app. 
-                    "python app.py" to run after installing dependences
-  ├── config.py *** Database URLs, CSRF generation, etc
-  ├── error.log
-  ├── forms.py *** Your forms
-  ├── models.py  *** Your SQL Alchemy models
-  ├── requirements.txt *** The dependencies we need to install with "pip3 install -r requirements.txt"
-  ├── static
-  │   ├── css 
-  │   ├── font
-  │   ├── ico
-  │   ├── img
-  │   └── js
-  └── templates
-      ├── errors
-      ├── forms
-      ├── layouts
-      └── pages
-  ```
 
 Overall:
 * Models are located in `models.py`.
-* Controllers are located in `app.py`.
-* The web frontend is located in `templates/`, which builds static assets deployed to the web server at `static/`.
-* Web forms for creating data are located in `form.py`
+* Controllers are located in `run.py`.
+* The web frontend is located in `frontend/`, 
 
 
 ### Development Setup
+## Backend
+
 
 First, [install Flask](http://flask.pocoo.org/docs/1.0/installation/#install-flask) if you haven't already.
 
@@ -72,9 +53,40 @@ To start and run the local development server,
 
 3. Run the development server:
   ```
-  $ export FLASK_APP=myapp
+  $ cd backend
+  $ export FLASK_APP=run.py
   $ export FLASK_ENV=development # enables debug mode
-  $ python3 app.py
+  $ python3 run.py
   ```
 
 4. Navigate to Home page [http://localhost:5000](http://localhost:5000)
+
+5. Active endpoints
+
+    | Functionality            | Endpoint                             | Casting assistant  |  Casting Director  | Executive Producer |
+    | ------------------------ | -----------------------------        | :----------------: | :----------------: | :----------------: |
+    | Fetches a list of actors | GET /actors                          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+    | Fetches a list of movies | GET /movies                          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+    | Fetches a specific actor | GET /actors/&lt;int:id&lt;;          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+    | Fetches a specific movie | GET /movies/&lt;int:id&lt;;          | :heavy_check_mark: | :heavy_check_mark: | :heavy_check_mark: |
+    | Creates an actor         | POST /actor/create                   |        :x:         | :heavy_check_mark: | :heavy_check_mark: |
+    | Patches an actor         | PATCH /actors/&lt;int:id&lt;/edit;   |        :x:         | :heavy_check_mark: | :heavy_check_mark: |
+    | Delete an Actor          | DELETE /actors/&lt;int:id&lt;;       |        :x:         | :heavy_check_mark: | :heavy_check_mark: |
+    | Creates a movie          | POST /movies/create                  |        :x:         |        :x:         | :heavy_check_mark: |
+    | Deletes a movie          | DELETE /movies/&lt;int:id&lt;;       |        :x:         |        :x:         | :heavy_check_mark: |
+    | Patches a movie          | PATCH /movies/&lt;int:id&lt;/edit;   |        :x:         |        :x:         | :heavy_check_mark: |
+
+6. Live project
+
+    - The backend has been deployed to heroku platform [https://capstone-fullstack.herokuapp.com/](https://capstone-fullstack.herokuapp.com/)
+
+
+## Frontend 
+  # This is under development and will be modified before staging
+  To run the development frontend end follow these steps.
+  ```
+  $ cd frontend/
+  $ npm i
+  $ ng serve
+
+  ```

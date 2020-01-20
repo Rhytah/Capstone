@@ -1,0 +1,24 @@
+<p>movie-details works!</p>
+<div class="row">
+	<div class="col-sm-6">
+		<h1 class="monospace">
+			{{ movie.title }}
+		</h1>
+		<p class="subtitle">
+			Release Date: {{ movie.release_date }}
+		</p>
+		<p class="subtitle">
+			Plot: {{ movie.description }}
+		</p>
+		<p>
+			<i class="fas fa-link"></i> <a href="{{ movie.website }}" target="_blank">{{ movie.website }}</a>
+		</p>
+		<p>
+			<i class="fab fa-facebook-f"></i> <a href="{{ movie.facebook_link }}" target="_blank">{{ movie.facebook_link }}</a>
+		</p>
+	</div>
+	<div class="col-sm-6">
+		<img src="{{ movie.image_link }}" alt="movie Image" />
+	</div>
+
+</div>

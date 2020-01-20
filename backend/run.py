@@ -16,8 +16,7 @@ from auth import AuthError,requires_auth
 
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
-from forms import *
+
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -38,8 +37,6 @@ def after_request(response):
                             'GET,PUT,POST,DELETE,OPTIONS')
     return response
 
-
-# TODO: connect to a local postgresql database
 
 
 #----------------------------------------------------------------------------#
@@ -65,9 +62,6 @@ app.jinja_env.filters['datetime'] = format_datetime
 def index():
   return jsonify({"message":"Welcome to Capstone. A casting agency"})
 
-#------------------------------------------------------------------#
-#  Movies
-# ----------------------------------------------------------------#
 
 @app.route('/movies')
 @requires_auth('view:movies')
@@ -79,19 +73,7 @@ def get_movies(payload):
     "Success": True
   })
 
-@app.route('/movies/search', methods=['POST'])
-def search_movies():
-    search_term = request.form.get('search_term')
-    search_results = Movie.name_search(search_term)
-    response = {
-        'count': len(search_results),
-        'data': search_results
-    }
 
-    return jsonify({
-      "Successs":True,
-      "results":response
-    })
 @app.route('/movies/<int:movie_id>')
 def single_movie(movie_id):
   # shows the movie page with the given movie_id
@@ -171,9 +153,6 @@ def delete_movie(payload, movie_id):
   }), 200
 
 
-#  ----------------------------------------------------------------
-#  actors
-#  ----------------------------------------------------------------
 @app.route('/actors')
 @requires_auth('view:actors')
 def actors(payload):
@@ -186,20 +165,6 @@ def actors(payload):
     "Success": True
   })
 
-@app.route('/actors/search', methods=['POST'])
-def search_actors():
-  # TODO: implement search on actors with partial string search. Ensure it is case-insensitive.
-  # seach for "A" should return "Guns N Petals", "Matt Quevado", and "The Wild Sax Band".
-  # search for "band" should return "The Wild Sax Band".
-  search_term = request.form.get('search_term')
-  actors = Actor.search_actor_name(search_term)
-
-  response = {
-      "count": len(actors),
-      "data": actors
-  }
-  return render_template('pages/search_actors.html', results=response,
-                          search_term=request.form.get('search_term', ''))
 
 @app.route('/actors/<int:actor_id>')
 @requires_auth('view:actors')
@@ -214,13 +179,12 @@ def single_actor(payload, actor_id):
     "Success": True
   })
   
-#  Update
-#  ----------------------------------------------------------------
+
 @app.route('/actors/<int:actor_id>/edit', methods=['PATCH'])
 @requires_auth('edit:actor')
 def edit_actor(payload,actor_id):
   """
-  Update description of a movie
+  Update name of an actor
   """
   body = request.get_json()
   actor = Actor.query.filter_by(id=actor_id).first()
@@ -237,15 +201,6 @@ def edit_actor(payload,actor_id):
       })
  
 
-@app.route('/movies/<int:movie_id>/edit', methods=['POST'])
-def edit_movie_submission(movie_id):
-  # TODO: take values from the form submitted, and update existing
-  # movie record with ID <movie_id> using the new attributes
-  return redirect(url_for('single_movie', movie_id=movie_id))
-
-#  Create actor
-#  ----------------------------------------------------------------
-
 @app.route('/actors/create', methods=['GET'])
 def create_actor_form():
   form = ActorForm()
@@ -253,24 +208,48 @@ def create_actor_form():
 
 @app.route('/actors/create', methods=['POST'])
 @requires_auth('add:actors')
+def create_actor_submission(payload):
 
-def create_actor_submission():
-  # called upon submitting the new actor listing form
-  # TODO: insert form data as a new movie record in the db, instead
-  name = request.form['name']
-  age = request.form['age']
-  gender = request.form['gender']
-  image_link = request.form['image_link']
-  new_actor = Actor(name = name,age=age,gender=gender, image_link=image_link)
+  """
+  Create an actor
+  """
+  data = request.get_json()
+  name=data.get("name"),
+  age=data.get("age")
+  image_link= data.get("image_link")
+  gender=data.get("gender")
+
+  new_actor = Actor(
+    name=name, age=age,image_link=image_link, gender=gender
+  )
+
   db.session.add(new_actor)
   db.session.commit()
-  # TODO: modify data to be the data object returned from db insertion
+  return jsonify({
+      'success': True,
+      'movie': new_actor.serialize()
+  }), 201
 
-  # on successful db insert, flash success
-  flash('Actor ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. actor ' + data.name + ' could not be listed.')
-  return render_template('pages/home.html')
+@app.route('/actors/<int:actor_id>', methods=['DELETE'])
+@requires_auth('delete:actors')
+def delete_actor(payload, actor_id):
+  """
+  Delete an actor basing on it's id
+  """
+  actor = Actor.query.filter_by(id=actor_id).first()
+  
+  print(actor)
+  if not actor:
+    abort(404, "actor not found")
+  actor_name = actor.name
+
+  db.session.delete(actor)
+  db.session.commit()
+
+  return jsonify({
+      'success': True,
+      'message': f'actor - {actor_name} - has been successfully deleted.'
+  }), 200
 
 
 '''
@@ -299,7 +278,7 @@ def internal_server_error(error):
     return jsonify({
         "success": False,
         "error": 500,
-        "message": 'Internal Server Error. Contact admin!'
+        "message": 'Oops! Something went wronng. Contact admin!'
     }), 500
 
 
@@ -308,14 +287,12 @@ def method_not_allowed(error):
     return jsonify({
         "success": False,
         "error": 405,
-        "message": 'Method Not Allowed. Double check that you are using the appropriate method for resource.'
+        "message": 'Method Not Allowed.'
     }), 405
 
 
-'''
-@TODO implement error handler for 404
-    error handler should conform to general task above 
-'''
+
+
 @app.errorhandler(404)
 def not_found(error):
     return jsonify({

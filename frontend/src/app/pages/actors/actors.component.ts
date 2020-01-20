@@ -17,6 +17,7 @@ export class ActorsComponent implements OnInit {
   name:string;
   age:number;
   gender:string;
+  image_link:string;
   loading:boolean = false;
 
   constructor(
@@ -35,7 +36,8 @@ export class ActorsComponent implements OnInit {
       id: this.id,
       name: this.name,
       age: this.age,
-      gender: this.gender
+      gender: this.gender,
+      image_link: this.image_link,
     };
 
     if(this.id){
@@ -48,15 +50,13 @@ export class ActorsComponent implements OnInit {
         this.loading = false;
         this.HandleHttpError.handleError(err)
       })
-      // this.actors = this.actors.filter(a => a.id !== this.id);
-      // this.actors.push(actor); 
+
     }
     else {
       this.loading = true;
       this.actorService.addActors(actor).subscribe(resp => {
         this.loading = false;
         this.getActors()
-        // this.actors.push(resp.actor); 
         console.log("success: ", resp);
       }, err => {
         this.loading = false;

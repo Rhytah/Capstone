@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { Movie } from '../models/movie';
+import { Movie, singleMovie } from '../models/movie';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service'
 
@@ -25,9 +25,11 @@ export class MovieService {
   getMovies():Observable<any> {
     return this.http.get<any>(`${this.apiServerUrl}/movies`, this.options);
   }
-
+  getSingleMovie(movie:singleMovie):Observable<any> {
+    return this.http.get<any>(`${this.apiServerUrl}/movies/${movie.id}`);
+  }
   addMovies(movie: Movie):Observable<any> {
-    return this.http.post<any>(`${this.apiServerUrl}/movies`, movie, this.options);
+    return this.http.post<any>(`${this.apiServerUrl}/movies/create`, movie, this.options);
   }
 
   editMovies(movie: Movie):Observable<any> {
