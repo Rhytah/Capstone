@@ -3,4 +3,5 @@ export class Actor {
     name:string;
     age:number;
     gender:string;
+    image_link:string;
 }

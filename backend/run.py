@@ -16,8 +16,8 @@ from auth import AuthError,requires_auth
 
 import logging
 from logging import Formatter, FileHandler
-from flask_wtf import Form
-from forms import *
+# from flask_wtf import Form
+# from forms import *
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -237,12 +237,7 @@ def edit_actor(payload,actor_id):
       })
  
 
-@app.route('/movies/<int:movie_id>/edit', methods=['POST'])
-def edit_movie_submission(movie_id):
-  # TODO: take values from the form submitted, and update existing
-  # movie record with ID <movie_id> using the new attributes
-  return redirect(url_for('single_movie', movie_id=movie_id))
-
+#  ----------------------------------------------------------------
 #  Create actor
 #  ----------------------------------------------------------------
 
@@ -253,24 +248,48 @@ def create_actor_form():
 
 @app.route('/actors/create', methods=['POST'])
 @requires_auth('add:actors')
+def create_actor_submission(payload):
 
-def create_actor_submission():
-  # called upon submitting the new actor listing form
-  # TODO: insert form data as a new movie record in the db, instead
-  name = request.form['name']
-  age = request.form['age']
-  gender = request.form['gender']
-  image_link = request.form['image_link']
-  new_actor = Actor(name = name,age=age,gender=gender, image_link=image_link)
+  """
+  Create an actor
+  """
+  data = request.get_json()
+  name=data.get("name"),
+  age=data.get("age")
+  image_link= data.get("image_link")
+  gender=data.get("gender")
+
+  new_actor = Actor(
+    name=name, age=age,image_link=image_link, gender=gender
+  )
+
   db.session.add(new_actor)
   db.session.commit()
-  # TODO: modify data to be the data object returned from db insertion
+  return jsonify({
+      'success': True,
+      'movie': new_actor.serialize()
+  }), 201
 
-  # on successful db insert, flash success
-  flash('Actor ' + request.form['name'] + ' was successfully listed!')
-  # TODO: on unsuccessful db insert, flash an error instead.
-  # e.g., flash('An error occurred. actor ' + data.name + ' could not be listed.')
-  return render_template('pages/home.html')
+@app.route('/actors/<int:actor_id>', methods=['DELETE'])
+@requires_auth('delete:actors')
+def delete_actor(payload, actor_id):
+  """
+  Delete an actor basing on it's id
+  """
+  actor = Actor.query.filter_by(id=actor_id).first()
+  
+  print(actor)
+  if not actor:
+    abort(404, "actor not found")
+  actor_name = actor.name
+
+  db.session.delete(actor)
+  db.session.commit()
+
+  return jsonify({
+      'success': True,
+      'message': f'actor - {actor_name} - has been successfully deleted.'
+  }), 200
 
 
 '''

@@ -16,6 +16,9 @@ export class MoviesComponent implements OnInit {
   title:string;
   release_date:string;
   description:string;
+  image_link:string;
+  facebook_link:string;
+  website:string;
   loading:boolean = false;
 
   constructor(
@@ -33,7 +36,11 @@ export class MoviesComponent implements OnInit {
       id: this.id,
       title: this.title,
       release_date: this.release_date,
-      description: this.description
+      description: this.description,
+      facebook_link:this.facebook_link,
+      website:this.website,
+      image_link: this.image_link
+   
     };
 
     if(this.id){
