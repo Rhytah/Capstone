@@ -8,12 +8,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ActorsComponent } from './pages/actors/actors.component';
 import { MoviesComponent } from './pages/movies/movies.component';
-
+import { ActorDetailsComponent } from './pages/actors/actor-details/actor-details.component';
+import { MovieDetailsComponent } from './pages/movies/movie-details/movie-details.component';
 @NgModule({
   declarations: [
     AppComponent,
     ActorsComponent,
-    MoviesComponent
+    MoviesComponent,
+    ActorDetailsComponent,
+    MovieDetailsComponent
   ],
   imports: [
     BrowserModule,
