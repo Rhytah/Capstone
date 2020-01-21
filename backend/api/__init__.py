@@ -1,7 +1,7 @@
 #----------------------------------------------------------------------------#
 # Imports
 #----------------------------------------------------------------------------#
-
+import os
 import json
 import dateutil.parser
 import babel
@@ -10,9 +10,9 @@ from flask import Flask, render_template, request, Response, flash, redirect, ur
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from models import  Movie,db, Actor
+from .models import  Movie,db, Actor
 from flask_cors import CORS
-from auth import AuthError,requires_auth
+from .auth import AuthError,requires_auth
 
 import logging
 from logging import Formatter, FileHandler
@@ -24,10 +24,26 @@ from logging import Formatter, FileHandler
 
 app = Flask(__name__)
 moment = Moment(app)
-app.config.from_object('config')
+# app.config.from_object('config')
 migrate = Migrate(app, db)
 db.init_app(app)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+SECRET_KEY = os.urandom(32)
+# Grabs the folder where the script runs.
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# Enable debug mode.
+DEBUG = True
+
+# Connect to the database
+
+
+# TODO IMPLEMENT DATABASE URL
+SQLALCHEMY_DATABASE_URI ='postgres://zsabckmxbixnie:2fb15ea73fb72903a8477049ae37df07f0dc8bc413a895ab3ff85ca40d07fb2d@ec2-174-129-220-12.compute-1.amazonaws.com:5432/d130qfeos1ek7u'
+# SQLALCHEMY_DATABASE_URI = 'postgres://rhytah@localhost:5432/capstone'
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 @app.after_request
 def after_request(response):
