@@ -6,10 +6,6 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-#----------------------------------------------------------------------------#
-# Models.
-#----------------------------------------------------------------------------#
-
 class Movie(db.Model):
     __tablename__ = 'Movie'
 
@@ -54,12 +50,13 @@ class Movie(db.Model):
         ]
 
     def exists(self, name):
-        return self.query.filter(db.func.lower(self.title) == db.func.lower(title)).count()
+        return self.query.filter(
+            db.func.lower(
+                self.title) == db.func.lower(title)).count()
 
     @classmethod
     def get_by_id(cls, id):
         return cls.query.get_or_404(id).serialize
-
 
     @classmethod
     def get_all(cls):
@@ -85,9 +82,8 @@ class Movie(db.Model):
             'website': self.website,
             'facebook_link': self.facebook_link,
             'image_link': self.image_link,
-            'description':self.description
+            'description': self.description
         }
-
 
 
 class Actor(db.Model):
@@ -98,13 +94,9 @@ class Actor(db.Model):
     age = db.Column(db.String(120))
     gender = db.Column(db.String(120))
     image_link = db.Column(db.String(500))
-   
-
-
 
     def __repr__(self):
         return f'<Actor self.id {self.name}>'
-
 
     @classmethod
     def get_by_id(cls, id):
@@ -117,6 +109,7 @@ class Actor(db.Model):
         details.update(actor.serialize)
 
         return details
+
     @classmethod
     def search_actor_name(cls, actor_name):
         movies = cls.query.filter(
@@ -129,6 +122,7 @@ class Actor(db.Model):
             }
             for actor in actors
         ]
+
     @classmethod
     def get_all(cls):
         actors = cls.query.all()
@@ -156,4 +150,3 @@ class Actor(db.Model):
 
     def __repr__(self):
         return f'<Actor name: {self.name}>'
-    

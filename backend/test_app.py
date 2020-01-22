@@ -22,17 +22,16 @@ class CapstoneTestCase(unittest.TestCase):
 
     def test_get_actors_before_signin(self):
         response = self.client().get('/actors')
-        data= json.loads(response.data)
+        data = json.loads(response.data)
         self.assertEqual(response.status_code, 401)
 
-
     def test_index(self):
-        response= self.client().get('/')
-        self.assertEqual(response.status_code,200)
+        response = self.client().get('/')
+        self.assertEqual(response.status_code, 200)
 
     def test_get_movies_with_no_token(self):
-        response= self.client().get('/movies')
-        data= json.loads(response.data)
+        response = self.client().get('/movies')
+        data = json.loads(response.data)
         self.assertEqual(response.status_code, 401)
 
     def test_create_actors_without_token_fails(self):
@@ -40,13 +39,13 @@ class CapstoneTestCase(unittest.TestCase):
             'name': 'mimi',
             'gender': 'female',
             'age': 18,
-            'image_link':'image'
+            'image_link': 'image'
         }
         response = self.client().post(
             '/actors/create',
             json=payload)
         self.assertEqual(response.status_code, 401)
-    
+
     # Executive producer tests
     def test_get_actors_as_executive_producer(self):
 
@@ -71,6 +70,7 @@ class CapstoneTestCase(unittest.TestCase):
         )
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
+
     def test_get_actors_as_executive_producer(self):
 
         response = self.client().get(
@@ -95,11 +95,10 @@ class CapstoneTestCase(unittest.TestCase):
         data = json.loads(response.data)
         self.assertEqual(response.status_code, 200)
 
-
     def test_delete_movies_fails_without_token(self):
         response = self.client().delete(
             '/movies/1'
-            )
+        )
         self.assertEqual(response.status_code, 401)
 
 

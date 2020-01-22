@@ -1,0 +1,582 @@
+{
+	"info": {
+		"_postman_id": "3f4219c2-a95e-4d55-a4a0-87a3f570da04",
+		"name": "capstone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Executive Producer",
+			"item": [
+				{
+					"name": "Fetch movies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch a specific movie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a specific movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDM1NTM3LCJleHAiOjE1Nzk0NDI3MzcsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.heBev6k3DeUXlsjYkpdL-9ov4dMvndQyZJbgW1ijp68798qNqauG8xRyrj_GgVuLR79D0qT315GJZorDW-axOqAHYoQWiARpvAY2dzPtwLI5l1mnee4B6a4i2ulpwiRWkAwRBjgDh2BklK5lJzVluuHL1gF25yPttLgzMHBVUXlngaVGnKqgeLomghw7lLGOmTqRSznKzTYuk2aJe2V6FUWzbG3UHtOOXbNBJ47TnIkZbOpvHl-UzJgUyTp0O2EiAkX5pngpZgjRJPSLRwfM-hNFvh59c2NWmR-dkYrJhAcRU2judzJ9NJx8qDWBsNKQx3zKwgMz5L5SSfuWk5kwhA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Transfer-Encoding",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"description\":\"Updated movie description\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies/5",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies",
+								"5"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Update a specific movie that does not exist",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Transfer-Encoding",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\"description\":\"Updated movie description\"}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/movies/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"5"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.16.0 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 22 Jan 2020 11:34:04 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 404,\n    \"message\": \"Resource not found\",\n    \"success\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Fetch single actor",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add an actor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDMzMDIzLCJleHAiOjE1Nzk0NDAyMjMsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbInZpZXc6YWN0b3JzIiwidmlldzptb3ZpZXMiXX0.U2TQZdwd__to6LeXKCMn7oN9FiNRvMzRW14Ovjt-vykjYV1OAYMN1yvbcvle78u4Ab-5rCBiMSE44eJ8XIl7QFj4lLoRWrmkxy-UxK9_qaS_yT-2OTMMkpljNQvgmvyT7yWg8eRRyXQb8LYf0prYwdiR0ChieAtLP4gqx_jiV06bIWMFTHFU2oHZgoPoZPoKnmNyw0yAhUttrvSLRX1U4NPxqdiNWhthQvsIq4IisfX3SZUtPFx0zMZ-f6fVbk7Gjp6kPDkLtbiacwea67PDI8JiWPV3EYUtB2494KbSmTpMrnmriXp14m068FOsYYHdISs1nBfoYPW6REpDCCCvlw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add a movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDM1NTM3LCJleHAiOjE1Nzk0NDI3MzcsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.heBev6k3DeUXlsjYkpdL-9ov4dMvndQyZJbgW1ijp68798qNqauG8xRyrj_GgVuLR79D0qT315GJZorDW-axOqAHYoQWiARpvAY2dzPtwLI5l1mnee4B6a4i2ulpwiRWkAwRBjgDh2BklK5lJzVluuHL1gF25yPttLgzMHBVUXlngaVGnKqgeLomghw7lLGOmTqRSznKzTYuk2aJe2V6FUWzbG3UHtOOXbNBJ47TnIkZbOpvHl-UzJgUyTp0O2EiAkX5pngpZgjRJPSLRwfM-hNFvh59c2NWmR-dkYrJhAcRU2judzJ9NJx8qDWBsNKQx3zKwgMz5L5SSfuWk5kwhA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"Somewhere Nowhere\",\n\t\"release_date\":\"2020-04-04\",\n\t\"website\":\"someweb.com\",\n\t\"image_link\":\"https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80\",\n\t\"facebook_link\":\"random.com/facebook\",\n\t\"description\":\"Lost at crooroads\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a movie",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDM1NTM3LCJleHAiOjE1Nzk0NDI3MzcsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.heBev6k3DeUXlsjYkpdL-9ov4dMvndQyZJbgW1ijp68798qNqauG8xRyrj_GgVuLR79D0qT315GJZorDW-axOqAHYoQWiARpvAY2dzPtwLI5l1mnee4B6a4i2ulpwiRWkAwRBjgDh2BklK5lJzVluuHL1gF25yPttLgzMHBVUXlngaVGnKqgeLomghw7lLGOmTqRSznKzTYuk2aJe2V6FUWzbG3UHtOOXbNBJ47TnIkZbOpvHl-UzJgUyTp0O2EiAkX5pngpZgjRJPSLRwfM-hNFvh59c2NWmR-dkYrJhAcRU2judzJ9NJx8qDWBsNKQx3zKwgMz5L5SSfuWk5kwhA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies",
+								"4"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete a movie that does not exist",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:5000/movies/7",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "5000",
+									"path": [
+										"movies",
+										"7"
+									]
+								}
+							},
+							"status": "NOT FOUND",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Access-Control-Allow-Headers",
+									"value": "Content-Type,Authorization,true"
+								},
+								{
+									"key": "Access-Control-Allow-Methods",
+									"value": "GET,PUT,POST,DELETE,OPTIONS"
+								},
+								{
+									"key": "Server",
+									"value": "Werkzeug/0.16.0 Python/3.8.1"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 22 Jan 2020 11:40:25 GMT"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"error\": 404,\n    \"message\": \"Resource not found\",\n    \"success\": false\n}"
+						}
+					]
+				},
+				{
+					"name": "Fetch Actors",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDM1NTM3LCJleHAiOjE1Nzk0NDI3MzcsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.heBev6k3DeUXlsjYkpdL-9ov4dMvndQyZJbgW1ijp68798qNqauG8xRyrj_GgVuLR79D0qT315GJZorDW-axOqAHYoQWiARpvAY2dzPtwLI5l1mnee4B6a4i2ulpwiRWkAwRBjgDh2BklK5lJzVluuHL1gF25yPttLgzMHBVUXlngaVGnKqgeLomghw7lLGOmTqRSznKzTYuk2aJe2V6FUWzbG3UHtOOXbNBJ47TnIkZbOpvHl-UzJgUyTp0O2EiAkX5pngpZgjRJPSLRwfM-hNFvh59c2NWmR-dkYrJhAcRU2judzJ9NJx8qDWBsNKQx3zKwgMz5L5SSfuWk5kwhA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/movies",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modify Actor's name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDM1NTM3LCJleHAiOjE1Nzk0NDI3MzcsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.heBev6k3DeUXlsjYkpdL-9ov4dMvndQyZJbgW1ijp68798qNqauG8xRyrj_GgVuLR79D0qT315GJZorDW-axOqAHYoQWiARpvAY2dzPtwLI5l1mnee4B6a4i2ulpwiRWkAwRBjgDh2BklK5lJzVluuHL1gF25yPttLgzMHBVUXlngaVGnKqgeLomghw7lLGOmTqRSznKzTYuk2aJe2V6FUWzbG3UHtOOXbNBJ47TnIkZbOpvHl-UzJgUyTp0O2EiAkX5pngpZgjRJPSLRwfM-hNFvh59c2NWmR-dkYrJhAcRU2judzJ9NJx8qDWBsNKQx3zKwgMz5L5SSfuWk5kwhA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:5000/actors/1",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"actors",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an actor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDUyNzcyLCJleHAiOjE1Nzk0NTk5NzIsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.cyAaQKEkA4kxAwlbFhopf3aPlNixmBhku5_RIS84QCwBLlVf4aP8o8-0cRngXHIqfQWt2Mw1YBAepjPdKotb1U0cthi2HlI4s4cNTpfsjx27A-U2YYNqOG9qpNc4wvMLXsj4NeCjhbs7--7UBQ5UZA8FfAsGYEdVR7VadoL7l1rfRF6hL9QPxU2hTp7pH6D2OnYSCeB_EGHZtqHvppguyNBDOiKv47pmuCcFOLXEILwzWWKhf0wOLhzQxzzCL91AoRYi8O-pef105rl0qvnJXoLyKTlzZRY54XuzpA6cmviduDzvftDM0o1WPfZwLO0yG2HihWuqAvbdk88SUaCJwA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\":\"Sean Bean\",\n\t\"age\":45,\n\t\"image_link\":\"https://images.unsplash.com/photo-1497681883844-82b4f0a359a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=2250&q=80\",\n\t\"gender\":\"male\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/actors/create",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"actors",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9EVTVOekk1T1VZMk9URTJSVUU0TURFNE5qUTRRMEkwT0VGRU1qazRSVGd5TmpWRFFUQkNPQSJ9.eyJpc3MiOiJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDI2NjI3NDk2MTgxMjY4MTM4MzIiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL3JoeXRhaC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTc5NDUyNzcyLCJleHAiOjE1Nzk0NTk5NzIsImF6cCI6IjZ6cHVrQ2dlMnZJWDJSWnB3VGxCcEJxTDAwRmcycEhBIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImFkZDphY3RvcnMiLCJhZGQ6bW92aWUiLCJkZWxldGU6YWN0b3JzIiwiZGVsZXRlOm1vdmllcyIsImVkaXQ6YWN0b3IiLCJlZGl0Om1vdmllIiwidmlldzphY3RvcnMiLCJ2aWV3Om1vdmllcyJdfQ.cyAaQKEkA4kxAwlbFhopf3aPlNixmBhku5_RIS84QCwBLlVf4aP8o8-0cRngXHIqfQWt2Mw1YBAepjPdKotb1U0cthi2HlI4s4cNTpfsjx27A-U2YYNqOG9qpNc4wvMLXsj4NeCjhbs7--7UBQ5UZA8FfAsGYEdVR7VadoL7l1rfRF6hL9QPxU2hTp7pH6D2OnYSCeB_EGHZtqHvppguyNBDOiKv47pmuCcFOLXEILwzWWKhf0wOLhzQxzzCL91AoRYi8O-pef105rl0qvnJXoLyKTlzZRY54XuzpA6cmviduDzvftDM0o1WPfZwLO0yG2HihWuqAvbdk88SUaCJwA",
+						"type": "string"
+					}
+				]
+			},
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000"
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
