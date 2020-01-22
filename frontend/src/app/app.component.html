@@ -1,0 +1,54 @@
+
+<!-- Toolbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+    <img
+    width="40"
+    alt="Angular Logo"
+    src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQR11aQVmjRvKFrvAVWLC0tAUUCS2e7e1sQf_CiGDGIR7lTp2Hw"/>
+    <a class="navbar-brand" href="/">{{ title }}</a>
+
+  <div class="card-container">
+    <a *ngIf="!auth.token" class="card" rel="noopener" href="{{ loginURL }}">
+      <span>Login</span>
+      </a>
+
+    <a *ngIf="auth.token" class="card" (click)="auth.logout()" rel="noopener">
+    
+      <span>Logout</span>
+    </a>
+    <a class="card" rel="noopener" href="/actors">
+      <span>Actors</span>
+
+    </a>
+
+    <a class="card" rel="noopener" href="/movies">
+
+      <span>Movies</span>
+
+    </a>
+
+  </div>
+
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="content" role="main">
+
+
+  <flash-messages></flash-messages>
+  <router-outlet></router-outlet>
+
+  <div id="token-display">
+    <b>Token</b>
+    <input type="text" value="{{ token }}">
+  </div>
+
+</div>
